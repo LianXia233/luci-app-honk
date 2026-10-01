@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-MAKEFILE="$REPO_DIR/honk/Makefile"
+MAKEFILE="$REPO_DIR/luci-app-honk/Makefile"
 UPSTREAM_REPO="daeuniverse/honk"
 
 git_ls_remote() {

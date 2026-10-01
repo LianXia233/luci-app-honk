@@ -28,8 +28,8 @@ jobs:
         id: meta
         shell: bash
         run: |
-          pkg_version=$(grep '^PKG_VERSION:=' honk/Makefile | head -n 1 | cut -d= -f2)
-          pkg_release=$(grep '^PKG_RELEASE:=' honk/Makefile | head -n 1 | cut -d= -f2)
+          pkg_version=$(grep '^PKG_VERSION:=' luci-app-honk/Makefile | head -n 1 | cut -d= -f2)
+          pkg_release=$(grep '^PKG_RELEASE:=' luci-app-honk/Makefile | head -n 1 | cut -d= -f2)
 
           version="${pkg_version}-r${pkg_release}"
           release_tag="honk_${version}"
@@ -72,14 +72,14 @@ jobs:
       - name: Remove vmlinux-btf dependency for CI
         shell: bash
         run: |
-          sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' honk/Makefile
+          sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' luci-app-honk/Makefile
 
       - name: Build packages
         uses: sbwml/openwrt-gh-action-sdk@go1.26
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
           FEEDNAME: packages_ci
-          PACKAGES: honk luci-app-honk
+          PACKAGES: luci-app-honk
           NO_REFRESH_CHECK: true
           V: s
 

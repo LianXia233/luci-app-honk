@@ -4,22 +4,23 @@ OpenWrt 上的 honk（基于 eBPF 的高性能透明代理引擎，dae 兼容）
 
 ## 仓库组件
 
-本仓库包含两个 OpenWrt 软件包：
+本仓库包含一个**单包自包含**的 OpenWrt 软件包：
 
 | 包名 | 类型 | 说明 |
 | :--- | :--- | :--- |
-| **`luci-app-honk`** | 管理界面 | 基于 LuCI 与 Ucode 构建的 Web 控制界面与 rpcd 服务 |
-| **`honk`** | 核心服务 | 从 [daeuniverse/honk](https://github.com/daeuniverse/honk) Release 下载预编译静态 `honk-core` 并配置 init.d 守护进程 |
+| **`luci-app-honk`** | 单包自包含 | 集成 LuCI 管理界面、预编译静态 `honk-core`、内置 Doona 控制面板与精简 geodata，安装一个 ipk/apk 即开即用 |
 
 > [!NOTE]
-> 目前 `honk-core` 仅提供 `x86_64` 与 `aarch64` 的预编译 musl 静态二进制。
+> 1. `honk-core` 仅提供 `x86_64` 与 `aarch64` 的预编译 musl 静态二进制，构建时自动下载。
+> 2. 仅内核模块（`kmod-*`）保留为 opkg 依赖，由包管理器自动安装，无需手动处理。
+> 3. 包内已内置精简版 `geosite.dat` / `geoip.dat`（安装至 `/usr/share/v2ray/`），无需额外安装 v2ray-geoip/v2ray-geosite。
 
 ## 编译与安装
 
 1. 拉取源码至 OpenWrt 源码树：
 
    ```bash
-   git clone https://github.com/QiuSimons/luci-app-honk package/honk
+   git clone https://github.com/QiuSimons/luci-app-honk package/luci-app-honk
    ```
 
 2. 配置并编译：
@@ -28,7 +29,7 @@ OpenWrt 上的 honk（基于 eBPF 的高性能透明代理引擎，dae 兼容）
    make menuconfig
    # 选择：Network -> Web Servers/Proxies -> luci-app-honk
 
-   make package/honk/compile V=s
+   make package/luci-app-honk/compile V=s
    ```
 
 ## 配置文件结构
